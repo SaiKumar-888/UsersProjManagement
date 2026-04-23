@@ -1,0 +1,14 @@
+import { Router } from "express";
+import { createTaskcontroller, deleteTaskController, getTasksByProjectController, updateTaskController } from "./task.controller.js";
+import { authMiddleware } from "../../middlewares/auth.middleware.js";
+
+const router = Router();
+
+router.use(authMiddleware);
+
+router.post('/', createTaskcontroller);
+router.get('/:id', getTasksByProjectController);
+router.put('/:id', updateTaskController);
+router.delete('/:id', deleteTaskController);
+
+export default router;
