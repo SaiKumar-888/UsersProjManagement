@@ -38,5 +38,9 @@ zod is a schema validation library.
 
 
 
+Docker
 
-
+👉 Docker = package your app + environment
+👉 Dockerfile = recipe
+👉 docker-compose = run multiple services
+👉 Benefit = consistency + easy deployment

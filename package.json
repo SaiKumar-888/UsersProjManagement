@@ -6,8 +6,14 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "dev:local": "DOTENV_CONFIG_PATH=.env.local tsx watch -r dotenv/config src/server.ts",
+    "dev:staging": "DOTENV_CONFIG_PATH=.env.staging tsx watch -r dotenv/config src/server.ts",
+    "dev:prod": "DOTENV_CONFIG_PATH=.env.production tsx watch -r dotenv/config src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "start:local": "DOTENV_CONFIG_PATH=.env.local node -r dotenv/config dist/server.js",
+    "start:staging": "DOTENV_CONFIG_PATH=.env.staging node -r dotenv/config dist/server.js",
+    "start:prod": "DOTENV_CONFIG_PATH=.env.production node -r dotenv/config dist/server.js"
   },
   "keywords": [],
   "author": "",
