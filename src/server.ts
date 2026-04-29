@@ -11,21 +11,25 @@ const envFileByNodeEnv: Record<string, string> = {
   test: ".env.test"
 };
 
-// Determine which env file to use based on NODE_ENV, default to "development"
-const selectedEnvFile = envFileByNodeEnv[process.env.NODE_ENV ?? "development"] ?? ".env.local";
+const selectedEnvFile =
+  envFileByNodeEnv[process.env.NODE_ENV ?? "development"] ?? ".env.local";
 
-// Check if the selected env file exists, otherwise fallback to ".env"
-const envFileToLoad = fs.existsSync(selectedEnvFile) ? selectedEnvFile : ".env";
+const envFileToLoad = fs.existsSync(selectedEnvFile)
+  ? selectedEnvFile
+  : ".env";
 
-// Load environment variables from the file
-dotenv.config({ path: envFileToLoad });
+// ✅ Only load dotenv locally (not in production like Render)
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config({ path: envFileToLoad });
+}
 
-const PORT = process.env.PORT || 5000;
+const parsedPort = Number.parseInt(process.env.PORT ?? "", 10);
+const PORT = Number.isNaN(parsedPort) ? 5000 : parsedPort;
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+// ✅ Required for cloud platforms
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
-
 
 // Usage
 // Run with the environment you want, for example:

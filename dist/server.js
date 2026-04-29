@@ -10,11 +10,15 @@ const envFileByNodeEnv = {
     test: ".env.test"
 };
 const selectedEnvFile = envFileByNodeEnv[process.env.NODE_ENV ?? "development"] ?? ".env.local";
-const envFileToLoad = fs.existsSync(selectedEnvFile) ? selectedEnvFile : ".env";
+const envFileToLoad = fs.existsSync(selectedEnvFile)
+    ? selectedEnvFile
+    : ".env";
 dotenv.config({ path: envFileToLoad });
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
+const parsedPort = Number.parseInt(process.env.PORT ?? "", 10);
+const PORT = Number.isNaN(parsedPort) ? 5000 : parsedPort;
+// ✅ IMPORTANT: bind to 0.0.0.0 for cloud
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`🚀 Server running on port ${PORT}`);
 });
 // Usage
 // Run with the environment you want, for example:
